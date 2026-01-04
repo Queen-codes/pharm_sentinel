@@ -10,7 +10,6 @@ companies_data = [
 
     # (name, country, city, is_manufacturer, is_importer, is_distributor)
     ("Novartis", "Switzerland", "Basel", True, False, False),
-    ("Cipla", "India", "Mumbai", True, False, False),
     ("GSK", "UK", "London", True, False, False),
     ("Sanofi", "France", "Paris", True, False, False),
     ("Pfizer", "USA", "New York", True, False, False),
@@ -60,6 +59,7 @@ def generate_companies():
 
 if __name__ == "__main__":
     companies = generate_companies()
+    #print(f"Generated {len(companies)} companies")
     #print(f"\nSample batch: {companies[0]}")
 
 
