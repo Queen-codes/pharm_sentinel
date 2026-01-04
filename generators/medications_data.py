@@ -148,3 +148,10 @@ medications_data = [
     ),
     ("Oxytocin", "Uterotonics", 3, True, 30, "ampoule", "CRITICAL", "10IU/ml"),
 ]
+
+stocking_rule = {
+    "PRIMARY_HEALTH_CENTER": [1],
+    "COMMUNITY_PHARMACY": [1, 2],
+    "GENERAL_HOSPITAL": [1, 2, 3],
+    "TEACHING_HOSPITAL": [1, 2, 3, 4],
+}
