@@ -1,4 +1,5 @@
 from medications_data import medications_data
+import random
 
 
 def generate_medications():
@@ -25,6 +26,7 @@ def generate_medications():
             "base_demand": base_demand,
             "category": category,
             "is_cold_chain": is_cold_chain,
+            "nrn": f"{random.choice(['A4', 'B4', 'C4', '04'])}-{random.randint(1000, 100999)}",
         }
         medications.append(medication)
     return medications
@@ -46,5 +48,6 @@ if __name__ == "__main__":
     "base_demand": 200,
     "category": "CRITICAL",
     "is_cold_chain": False,
+    'nrn': 'B4-2959'
 }
 """
