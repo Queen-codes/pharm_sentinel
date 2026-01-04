@@ -81,7 +81,7 @@ def generate_batches(brands, companies, batches_per_brand=(2, 5), seed=42):
                     importer_name = random.choice(authorized_names)
                     importer = company_lookup.get(importer_name)
                     if importer:
-                        importer_id = manufacturer["company_id"]
+                        importer_id = importer["company_id"]
                     else:
                         # Fallback
                         fallback = random.choice(nigerian_importers)
