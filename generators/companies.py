@@ -45,7 +45,6 @@ authorized_importers = {
     "Novo Nordisk": ["WWCVL"],
     "Sanofi": ["WWCVL", "Phillips Pharmaceuticals"],
     "AstraZeneca": ["WWCVL"],
-    "Novo Nordisk": ["WWCVL"],
     "Bayer": ["WWCVL", "Phillips Pharmaceuticals"],
     "Roche": ["WWCVL"],
     "Merck": ["WWCVL"],
