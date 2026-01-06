@@ -75,30 +75,31 @@ def generate_batches(brands, companies, batches_per_brand=(2, 5), seed=42):
                 # importer_name = manufacturer["name"]
                 importer_name = manufacturer_name
             else:
-                # International manufacturer needs Nigerian importer
-                if manufacturer_name in authorized_importers:
-                    authorized_names = authorized_importers[manufacturer_name]
-                    importer_name = random.choice(authorized_names)
-                    importer = company_lookup.get(importer_name)
-                    if importer:
-                        importer_id = importer["company_id"]
-                    else:
-                        # Fallback
-                        fallback = random.choice(nigerian_importers)
-                        importer_id = fallback["company_id"]
-                        importer_name = fallback["name"]
+                authorized = authorized_importers.get(manufacturer_name, [])
 
-                else:
-                    # if no autorized imp, use nigeria as fall back
+                # 5% chance of unauthorized importer (for anomaly detection)
+                if random.random() < 0.05 or not authorized:
                     fallback = random.choice(nigerian_importers)
-                    importer_id = fallback["company_id"]
                     importer_name = fallback["name"]
+                    importer_id = fallback["company_id"]
+                else:
+                    importer_name = random.choice(authorized)
+                    importer = company_lookup.get(importer_name)
+                    importer_id = importer["company_id"]
 
             # batch number format
-            # Create code: first 3 letters of name
-            code = manufacturer_name[:3].upper()
-            year = manufacturing_date.year
-            batch_number = f"{code}-{year}-{batch_counter:04d}"
+            # batch number which allows for rare duplicate
+            if random.random() < 0.02 and batches:
+                # reuse an existing batch number for anomaly
+                batch_number = random.choice(batches)["batch_number"]
+            else:
+                code = manufacturer_name[:3].upper()
+                year = manufacturing_date.year
+                batch_number = f"{code}-{year}-{batch_counter:04d}"
+
+            # price anomaly
+            price_multiplier = random.uniform(0.6, 1.1)
+            unit_price = int(brand["unit_price"] * price_multiplier)
 
             batch = {
                 "batch_id": f"BAT_{batch_counter:04d}",
@@ -114,7 +115,7 @@ def generate_batches(brands, companies, batches_per_brand=(2, 5), seed=42):
                 "manufacturing_date": manufacturing_date.strftime("%Y-%m-%d"),
                 "expiry_date": expiry_date.strftime("%Y-%m-%d"),
                 "initial_quantity": initial_quantity,
-                "unit_price": brand["unit_price"],
+                "unit_price": unit_price,
                 "counterfeit_risk": brand["counterfeit_risk"],
                 "is_verified": True,
                 "is_flagged": False,
@@ -137,8 +138,9 @@ if __name__ == "__main__":
     # print(f"Generated {len(batches)} batches for {len(brands)} brands")
     # print(f"{batches[0]}")
 
-# Generated 203 batches for 70 brands
-"""{
+# Generated 212 batches for 70 brands
+"""
+{
     "batch_id": "BAT_0001",
     "brand_id": "BRD_001",
     "brand_name": "Coartem",
@@ -146,13 +148,13 @@ if __name__ == "__main__":
     "generic_name": "Artemether-Lumefantrine",
     "manufacturer_id": "COMP_001",
     "manufacturer_name": "Novartis",
-    "importer_id": "COMP_001",
-    "importer_name": "Phillips Pharmaceuticals",
+    "importer_id": "COMP_018",
+    "importer_name": "WWCVL",
     "batch_number": "NOV-2024-0001",
     "manufacturing_date": "2024-10-20",
     "expiry_date": "2026-11-01",
     "initial_quantity": 17149,
-    "unit_price": 3500,
+    "unit_price": 2279,
     "counterfeit_risk": "HIGH",
     "is_verified": True,
     "is_flagged": False,
