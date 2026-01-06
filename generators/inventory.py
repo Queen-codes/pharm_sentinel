@@ -134,6 +134,7 @@ def generate_inventory(facilities, batches, medications):
                     "unit_price": batch["unit_price"],
                 }
                 inventory.append(inv_record)
+                inv_counter += 1
 
     return inventory
 
