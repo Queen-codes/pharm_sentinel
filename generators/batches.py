@@ -98,10 +98,6 @@ def generate_batches(brands, companies, batches_per_brand=(2, 5), seed=42):
                 year = manufacturing_date.year
                 batch_number = f"{code}-{year}-{batch_counter:04d}"
 
-            # price anomaly
-            price_multiplier = random.uniform(0.6, 1.1)
-            unit_price = int(brand["unit_price"] * price_multiplier)
-
             batch = {
                 "batch_id": f"BAT_{batch_counter:04d}",
                 "brand_id": brand["brand_id"],
@@ -116,7 +112,6 @@ def generate_batches(brands, companies, batches_per_brand=(2, 5), seed=42):
                 "manufacturing_date": manufacturing_date.strftime("%Y-%m-%d"),
                 "expiry_date": expiry_date.strftime("%Y-%m-%d"),
                 "initial_quantity": initial_quantity,
-                "unit_price": unit_price,
                 "counterfeit_risk": brand["counterfeit_risk"],
                 "is_verified": True,
                 "is_flagged": False,
