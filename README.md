@@ -78,8 +78,6 @@ When a facility runs low on medication, the agent orchestrates intelligent trans
 
 **Cold chain awareness:** When a user requests insulin, the agent recognizes this is a cold storage medication. It immediately narrows the search to facilities with cold storage capabilities and prioritizes proximity to minimize cold chain transport risk. The agent decomposes the task based on medication characteristics.
 
-```
-
 ### Why This Architecture?
 
 **Centralized agent, distributed data collection.** One intelligent agent monitors all facilities from a central location. This lets the system see patterns across facilities—like that "Lagos to Kano in 2 hours" impossible movement—that distributed agents would miss.
