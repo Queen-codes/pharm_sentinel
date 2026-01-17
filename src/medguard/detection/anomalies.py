@@ -1,10 +1,10 @@
 from datetime import datetime
 from collections import defaultdict
 from typing import List, Dict
-import math
 import uuid
 
 from medguard.data.generators.companies import authorized_importers
+from medguard.utils.geo import haversine_distance
 
 ANOMALY_TYPES = [
     "IMPOSSIBLE_QUANTITY",
@@ -47,20 +47,6 @@ def create_anomaly(
         "source": "SIMULATION",
         "is_active": True,
     }
-
-
-# harversine function to calcuate distance between two locations
-def haversine_km(lat1, lon1, lat2, lon2):
-    R = 6371
-    dlat = math.radians(lat2 - lat1)
-    dlon = math.radians(lon2 - lon1)
-    a = (
-        math.sin(dlat / 2) ** 2
-        + math.cos(math.radians(lat1))
-        * math.cos(math.radians(lat2))
-        * math.sin(dlon / 2) ** 2
-    )
-    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
 # anomalies based on movements
@@ -150,7 +136,7 @@ def detect_geographic_impossibility(
             latter_time = datetime.fromisoformat(latter_movement["timestamp"])
             hours_between = abs((latter_time - former_time).total_seconds()) / 3600
 
-            distance_in_km = haversine_km(
+            distance_in_km = haversine_distance(
                 former_fac["latitude"],
                 former_fac["longitude"],
                 latter_fac["latitude"],
